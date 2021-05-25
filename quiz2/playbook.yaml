@@ -1,0 +1,33 @@
+---
+- name: Plays for target VM
+  hosts: target
+
+
+  tasks: 
+
+
+  - name: Change motd in '/etc/motd'
+    ansible.builtin.lineinfile:
+      path: '/etc/motd'
+      line: 'Ansible Managed by 1313010'
+      state: present
+
+
+  - name: Create a user with a password 
+    ansible.builtin.user:
+      name: qrcapangca-tip
+      state: present 
+      password: AnsibleManaged
+
+
+  - name: Making the user a passwordless sudoer user
+    ansible.builtin.lineinfile:
+      path: '/etc/sudoers'
+      line: 'qrcapangca-tip ALL=(ALL) NOPASSWD: ALL'
+      state: present
+
+
+  - name: Create a group named 'sysad2'
+    ansible.builtin.group:
+      name: sysad2
+      state: present
